@@ -1,0 +1,57 @@
+#include <stdio.h>
+
+
+/*
+2. Diseñar un algoritmo recursivo
+que permita invertir un número. Por ejemplo,
+Entrada: 123 Salida: 321.
+3. Diseñar un algoritmo recursivo que permita sumar los dígitos de un número. Por 
+ejemplo, Entrada: 123 Resultado: 6.
+
+*/
+
+
+int suma_digitos(n){
+
+	if (n == 0)
+		return 0;
+
+	return suma_digitos(n / 10)+ n % 10;
+	
+}
+
+
+
+void invertir_num(n) {
+
+	if (n == 0)
+		return;
+
+
+	printf("%d", n % 10);
+	
+	invertir_num(n / 10);
+
+	
+
+	
+}
+
+
+
+int main() {
+    int num;
+
+	printf("Número: ");
+	scanf("%d", &num);
+
+	
+
+	invertir_num(num);
+
+	printf("\n La suma de los dígitos es %d", suma_digitos(num));
+	
+	
+    return 0;
+}
+  

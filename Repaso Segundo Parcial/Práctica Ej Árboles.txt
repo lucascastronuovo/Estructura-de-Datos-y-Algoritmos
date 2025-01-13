@@ -1,0 +1,129 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct charly
+{
+    int dato;
+    struct charly *izq;
+    struct charly *der;
+}charlynode;
+
+/*
+
+Crear y mostrar un árbol binario de busqueda.
+Escribir las funciones necesarias para calcular y luego mostrar:
+a) Sumatoria de los elementos pares con dos hijos.
+b) Mínimo elemento par divisor de la ráiz del arbol
+
+Ej:
+
+El ingreso de datos es 8 3 10 1 6 14 4 7 13
+a) Sumatoria: 14
+b) Mínimo: 4
+
+*/
+
+
+void mostrar (charlynode *hoja, int *sum, int *min, int *raiz)
+{
+      
+    if (hoja!=NULL)
+    {
+        
+        
+        mostrar(hoja->izq, sum, min, raiz);
+        printf("%d ",hoja->dato);
+        if (hoja->izq != NULL & hoja->der != NULL & hoja->dato%2==0)
+        *sum=*sum+hoja->dato;
+
+        if (hoja->dato%2==0 && hoja->dato<*min && *raiz%hoja->dato==0)
+        *min=hoja->dato;
+
+
+        mostrar(hoja->der, sum, min, raiz);
+
+    }
+    return;
+}
+
+void insertar (charlynode **hoja,int elem)
+{
+    int numero=elem;
+    if (elem==-1)
+        return;
+    
+    if (*hoja==NULL)
+    {
+        //creo la hoja vacia
+        (*hoja)=(charlynode*)malloc(sizeof(charlynode));
+        (*hoja)->dato=elem;
+        (*hoja)->der=NULL;
+        (*hoja)->izq=NULL;
+    }else{
+
+
+
+
+    if (numero>(*hoja)->dato)
+    {
+
+        insertar (&(*hoja)->der,elem);
+
+    }
+    else
+    {
+
+        insertar (&(*hoja)->izq,elem);
+    }
+    }
+return;
+}
+
+
+
+void crear (charlynode **hoja, int *min, int *raiz)
+{
+    int numero;
+
+    printf ("ingrese numero: ");
+    scanf ("%d",&numero);
+
+    if (numero != -1)
+      *raiz=numero;
+      *min=numero;
+    
+    while (numero!=-1)
+    {
+
+        insertar(&(*hoja),numero);
+        printf ("ingrese numero: ");
+        scanf ("%d",&numero);
+    }
+}
+
+
+int main ()
+{
+
+    int sum=0, min, raiz;
+
+    printf ("arboles\n");
+    charlynode* arbol=NULL;
+
+    crear (&arbol, &min, &raiz);
+    printf ("**************\n");
+    printf ("mostrar arbol\n");
+    printf ("***************\n");
+
+    mostrar (arbol, &sum, &min, &raiz);
+
+    printf("\na) Sumatoria: %d", sum);
+    printf("\nb) Mínimo: %d", min);
+
+
+    return 0;
+}
+
+
+
+  

@@ -1,0 +1,127 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct lista{
+	int cod_pais;
+  int num_est;
+  int r_mens;
+	struct lista *sig;
+ }nodo;
+
+/*
+La cadena de hoteles Hilton tiene establecimientos en todo el mundo. Para conocer las ganancias, se ingresa código de país, numero de establecimiento y su recaudación mensual (en millones de dólares) en una lista simplemente enlazada.x
+                              
+El ingreso de datos termina con el código de país igual a cero.x
+
+Se deben ingresar los datos ordenados por país y establecimiento.x
+
+Mostrar la lista. x
+ Insertar un nodo al final de la lista con 100 en código de pais, 0 en numero de establecimiento y la recaudación de todos los hoteles ingresados.x
+ Eliminar de la lista original aquellos establecimientos con recaudación inferior al promedio de todos los establecimientos ingresados.
+Ingresar un nuevo hotel con el código de país y la recaudación mensual e Insertarlas en orden en la lista.
+
+*/
+
+void crear (nodo *h)
+{
+    printf("Código de país: ");
+    scanf("%d",&h->cod_pais);
+
+   
+
+    if (h->cod_pais==0)
+        h->sig=NULL;
+    else
+ {
+         printf("\nEstablecimiento: ");
+         scanf("%d",&h->num_est);
+
+          printf("\nRecaudación mensual en millones: ");
+          scanf("%d",&h->r_mens);
+        h->sig=(nodo*)malloc(sizeof(nodo));
+        crear (h->sig);
+
+	}
+	return;
+}
+
+void mostrar (nodo *h)
+{
+    if (h->sig !=NULL)
+	{
+        printf ("Cod pais: %d\n",h->cod_pais);
+        printf ("Establecimiento: %d\n",h->num_est);
+        printf ("Recaudación mensual en millones: %d\n",h->r_mens);
+        
+        mostrar (h->sig);
+	}
+	return;
+}
+
+int suma (nodo *registro)
+{
+  
+    if (registro->sig ==NULL)
+      return 0;
+  
+        
+   return suma (registro->sig)+registro->r_mens;
+	
+	
+}
+
+void insertar2 (nodo *p, int suma)
+{nodo *aux;
+    while(p->sig->sig!=NULL)
+    {              
+        p=p->sig;
+    }
+
+    aux=(nodo *)malloc(sizeof(nodo));
+    aux->cod_pais=100;
+    aux->num_est=0;
+    aux->r_mens=suma;
+    aux->sig=p->sig;
+    p->sig=aux;
+    
+}
+
+int promedio_recaud(nodo *registro)
+{
+    int cont=0, sum=0, prom;
+  
+    while (registro->sig !=NULL){
+
+          sum=sum+registro->r_mens;
+          cont++;
+    }
+
+    prom=sum/cont;
+  
+        
+   return prom;
+	
+	
+}
+
+
+int main() {
+
+  
+    int suma_recaudacion=0, promedio;
+    nodo *prin=NULL;
+    nodo *orig=NULL;
+    prin=(nodo*)malloc(sizeof(nodo));
+    orig=(nodo*)malloc(sizeof(nodo));
+    crear(prin);
+    orig=prin;
+    mostrar (prin);
+    mostrar (orig);
+    suma_recaudacion=suma(prin);
+    printf("Suma de recaudacion: %d", suma_recaudacion);
+    insertar2(prin, suma_recaudacion);
+    mostrar (prin); 
+    printf("Promedio recaudacion orig: %d", promedio);
+    return 0;
+}
+ 

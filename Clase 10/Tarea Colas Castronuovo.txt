@@ -1,0 +1,109 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+
+
+#define CANT 10
+
+
+
+
+typedef struct cola
+{
+	int valor;
+
+    struct cola *sig;
+}nodoc;
+
+
+/*
+2) Desarrollar un programa en C que permita
+cargar un cola de n números enteros.
+Calcular y mostrar (en una función y no en el
+programa principal) la sumatoria de los elementos
+en posición par de la cola. (se considera que el primer
+que entra está en la posición uno y así sucesivamente).
+
+
+
+*/
+
+void mostrar (nodoc aux,int *pos, int *sum)
+{
+	
+  	printf("%d \n", aux.valor);
+	if (*pos%2==0){
+		*sum=*sum+aux.valor;
+	}
+
+	*pos=*pos+1;
+
+}
+
+
+nodoc* crear_nodo(int dato)
+{
+   nodoc* u;
+   u = (nodoc *)malloc(sizeof(nodoc));
+
+   u->valor = dato;
+
+   u->sig = NULL;
+
+   return u;
+}
+
+void acolar(nodoc** p,nodoc** u, nodoc *q)
+{
+   printf("acolar_nodo\n");
+	if(*p==NULL)
+    *p = *u = q;
+   else
+   {
+    	(*u)->sig = q;
+    	(*u) = q;
+   }
+  	printf("%02d p=%p u=%p\n", q->valor, *p, *u);
+}
+
+
+nodoc desacolar(nodoc** inicio)
+{
+	nodoc* aux;
+    nodoc datos;
+
+	datos=**inicio;
+
+	aux=*inicio;
+
+	*inicio=(*inicio)->sig;
+	free(aux);
+
+    return datos;
+}
+
+int main() {
+	
+   int i,num, sum=0, pos=1;
+   nodoc* p=NULL;
+   nodoc* u=NULL;
+
+   for(i=1; i<=CANT; i++)
+   {
+       printf("Ingrese un numero %d: ", i);
+       scanf("%d",&num);
+       acolar(&p, &u, crear_nodo(num));
+	   
+   }
+
+		while(p!=NULL)
+   {
+    	mostrar(desacolar(&p), &pos, &sum);
+   }
+
+	printf("La suma de las posiciones pares es %d", sum);
+	
+	
+    return 0;
+}
+  

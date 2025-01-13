@@ -1,0 +1,128 @@
+#include <stdio.h>
+
+
+
+
+
+
+int funcion_producto(int a,int b){
+
+	if (b == 0)
+		return 0;
+
+	return funcion_producto(a, b-1)+a;
+	
+}
+
+
+int analisis_diag_princ(int mat[][10], int dim, int i, int j, int producto) {
+
+
+	if (dim <= 0)
+		return producto;
+
+	if (i == j && i == 0)
+		producto = mat[i][j];
+		
+	else if (i == j && i != 0)
+		producto = funcion_producto(mat[i][j], producto);
+
+	return analisis_diag_princ(mat, dim-1, i, j+1, producto);
+
+	
+}
+
+int producto_diag_princ(int mat[][10], int dim, int i, int j,int aux, int producto){
+
+	if (dim <= 0)
+		return producto;
+
+	return analisis_diag_princ(mat, aux, i, j, producto);
+
+	return producto_diag_princ(mat, dim - 1, i+1, 0, aux, producto);
+
+	
+}
+
+void mostrar_columna(int mat[][10],int dim,int i,int j){
+
+	if (dim <= 0)
+		return;
+
+	printf("\t %d  ", mat[i][j]);
+
+	mostrar_columna(mat, dim - 1, i, j+1);
+
+	
+}
+
+void mostrar(int mat[][10], int dim, int i, int j, int aux) {
+
+
+	if (dim <= 0)
+		return;
+
+	mostrar_columna(mat, aux, i, j);
+	
+	printf("\n");
+	mostrar(mat, dim - 1, i+1, 0, aux);
+	
+}
+
+void cargar_columna(int mat[][10], int dim, int i, int j) {
+
+	
+	if (dim <= 0)
+		return;
+
+	printf("Ingrese un valor  %d %d: ", i, j);
+	scanf("%d", &mat[i][j]);
+
+	cargar_columna(mat, dim - 1, i, j+1);
+	
+}
+
+void cargar(int mat[][10], int dim, int i, int j, int aux) {
+
+
+	if (dim <= 0)
+		return;
+
+
+	cargar_columna(mat, aux, i, j);
+
+		
+	cargar(mat, dim -1,i+1, 0, aux);
+	
+
+	
+}
+
+
+int main() {
+    int mat[10][10], dim, aux, producto;
+
+	printf("Ingrese una dimensión: ");
+	scanf("%d", &dim);
+	
+
+	while (dim <= 0) {
+		printf("Ingrese una dimensión: ");
+		scanf("%d", &dim);
+		
+		
+	}
+
+	aux = dim;
+
+	cargar(mat, dim, 0, 0, aux);
+	mostrar(mat, dim, 0, 0, aux);
+
+
+	producto_diag_princ(mat, dim, 0, 0, aux, producto);
+
+	printf("El producto de la diagonal principal es: %d", producto_diag_princ(mat, dim, 0, 0, aux, producto));
+	
+    return 0;
+}
+  

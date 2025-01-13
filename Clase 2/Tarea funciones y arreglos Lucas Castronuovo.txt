@@ -1,0 +1,224 @@
+#include <stdio.h>
+
+
+/*
+
+Con los conocimientos adquiridos hasta el momento se pide desarrollar un programa en C con funciones que permita:
+
+
+
+Ingresar números enteros y cargar un vector con los primero 10 números positivos o hasta que se lea un cero.
+
+Si el vector no tiene elementos, mostrar una leyenda, caso contrario mostrarlo y realizar las siguientes operaciones;
+
+
+
+a) Insertar el opuesto antes de aquellos números pares menores al promedio.
+
+b) Ordenar el vector de mayor a menor y mostrarlo.
+
+
+
+*/
+
+
+/*
+Tuve problemas con el punto a). Si ingreso los 10 valores en
+en arreglo los ordena bien los 2 primeros y despues repite el mismo.
+
+
+*/
+
+
+
+void vec_ordenado (int v[],int dim) {
+
+int i, j, aux;
+	
+	for (i = 0; i < dim; i++) {
+
+		for (j= i+1; j < dim; j++){
+
+			if (v[i] < v[j]) {
+
+				aux = v[i];
+				v[i] = v[j];
+				v[j] = aux;
+				
+			}
+
+			
+		}
+
+
+		
+	}
+
+	return;	
+}
+
+
+
+void insertar (int v[], int dim, int num, int pos){
+
+    int j;
+    
+    for (j = dim; j > pos; j--){
+
+        
+        v[j] = v[j - 1];
+    }
+
+      if (pos == 0)
+      v[pos] = -num;
+      
+      else
+      v[pos+1] = -num;
+      
+
+    
+
+    return;
+    
+}
+
+void mostrar_vec(int dim, int v[]) {
+
+	int i, suma = 0, promedio, par_menor_prom, pos_menor_prom, dim_n;
+  
+  
+  
+
+    if (dim == 0)
+        printf("\n No se ha ingresado ningún valor");
+
+    else {
+        
+    for (i = 0; i < dim; i++) {
+            printf("\n %d %d", i, v[i]);
+
+            suma += v[i];
+
+        }
+
+        promedio = suma / dim;
+
+
+		vec_ordenado(v, dim);
+
+		printf("\n ");
+		printf("\n Vector ordenado (Mayor a menor): ");
+		for (i = 0; i < dim; i++) 
+            printf("\n %d %d", i, v[i]);
+
+/*
+        for (i = 0; i < dim; i++){
+          
+          if (i == 0) {
+
+            if (v[i] % 2 == 0 && v[i] < promedio) {
+              
+              
+
+                dim_n = dim;
+                pos_menor_prom = i;
+                par_menor_prom = v[i];
+                insertar(v, dim_n, par_menor_prom, pos_menor_prom);
+                
+                
+              }
+              
+          }
+              
+              else {
+                if (v[i + 1] % 2 == 0 && v[i] < promedio) {
+                dim_n++;
+                par_menor_prom = v[i];
+                pos_menor_prom = i;
+                insertar(v, dim_n, par_menor_prom, pos_menor_prom);
+                
+                
+                }
+                
+                
+                }
+                
+                
+
+                
+            
+        }
+            printf("\n Vector modificado: ");
+        
+        for (i = 0; i < dim; i++) 
+            printf("\n %d %d", i, v[i]);
+        
+        }
+
+*/		
+}		
+  return;
+}
+
+	
+
+int ingresar_num() {
+
+    int n;
+
+    printf("Ingrese un número: ");
+    scanf("%d", &n);
+
+
+    return n;
+
+
+}
+
+
+int cargar_vec(int v[]) {
+
+    int pos = 0, num, dim = 0;
+
+	num = ingresar_num();
+	
+    while(num != 0 && pos < 10) {
+	
+    
+
+    if (num > 0)    {
+        v[pos] = num;
+        pos ++;
+		dim++;
+
+    }
+
+    
+	
+	num = ingresar_num();
+
+    }
+
+    
+    
+
+    return dim;
+}
+
+	
+
+
+int main() {
+
+    int vec[20],dim;
+
+	dim = cargar_vec(vec);
+
+	
+	mostrar_vec(dim, vec);
+
+   
+    return 0;
+}
+
+				

@@ -1,0 +1,160 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct lista{
+	int num;
+	struct lista *sig;
+ }nodol;
+
+
+
+
+/*
+
+a)	Crear y mostrar la lista. Termina con num=1000.
+b)  Generar otra lista con aquellos números múltiplos de 3.
+	Mostrarla  
+c)	Si la suma de nodos consecutivos de la lista original
+	es mayor a 20 agregar adelante del primer nodo
+	(que se suma) un nodo con num=0.
+	Si la suma de nodos consecutivos es menor a 10 eliminar
+	el segundo nodo que se suma.
+	Mostrar la lista.
+
+
+
+*/
+
+void crear_lista (nodol *q)
+{
+	printf("Ingrese un número: ");
+    scanf("%d",&q->num);
+
+    if (q->num==1000)
+        q->sig=NULL;
+    else
+	{
+        q->sig=(nodol*)malloc(sizeof(nodol));
+        crear_lista (q->sig);
+
+	}
+	return;
+}
+
+
+void mostrar_lista (nodol *q)
+{
+    if (q->sig !=NULL)
+	{
+        printf ("%d\n",q->num);
+        mostrar_lista (q->sig);
+	}
+	return;
+}
+
+
+void generar_lista(nodol *q, nodol *h){
+
+	while (q->sig != NULL) {
+
+		if (q->num % 3 == 0){
+
+			h->num = q->num;
+
+			h->sig = (nodol*)malloc(sizeof(nodol));
+
+			h = h->sig;
+
+			
+		}
+
+		q = q->sig;
+		
+	}
+
+	h->sig=NULL;
+
+	return;
+}
+
+
+int suma_nodos (nodol *q){
+
+
+	if (q->sig == NULL)
+		return 0;
+
+	return suma_nodos(q->sig)+q->num;
+
+
+	
+}
+
+
+nodol* insertar_cabezadelista(nodol *q)
+{
+    nodol *aux;
+    
+	aux=(nodol *)malloc(sizeof(nodol));
+	aux->num= 0;
+	aux->sig=q;
+	q=aux;
+	
+    return q;
+}
+
+
+void eliminar(nodol* q){
+	
+	nodol *aux;
+	
+    aux=q->sig->sig;
+    free(q->sig);
+    q->sig=aux;
+
+
+	return;
+}
+
+
+int main() {
+
+	nodol *p =NULL;
+	nodol *m =NULL;
+
+	int suma;
+	
+	p=(nodol*)malloc(sizeof(nodol));
+	m=(nodol*)malloc(sizeof(nodol));
+
+	crear_lista(p);
+	mostrar_lista(p);
+
+	generar_lista(p,m);
+	printf("Lista múltiplos de 3:\n");
+	mostrar_lista(m);
+
+	suma = suma_nodos(p);
+	printf("Suma: %d \n", suma);
+
+	if (suma > 20){
+
+		p=insertar_cabezadelista(p);
+		printf("Lista con nodo num 0 adelante:\n");
+		mostrar_lista(p);
+		
+	}
+		
+	else if(suma < 10){
+	
+		eliminar(p);
+		printf("Lista con el segundo nodo eliminado:\n");
+		mostrar_lista(p);
+
+		
+	}
+	
+	
+    return 0;
+}
+   

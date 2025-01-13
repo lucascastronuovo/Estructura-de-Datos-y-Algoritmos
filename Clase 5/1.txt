@@ -1,0 +1,40 @@
+#include <stdio.h>
+
+ int suma(int vec[],int dim){
+
+	if (dim<0)
+		return 0 ;
+
+	return suma(vec,dim-1)+vec[dim];
+}
+
+void cargar(int vec[],int dim,int i){
+
+	if(dim<0)
+		return;
+	
+	printf("ingrese valor %d   ",i);
+	scanf("%d",&vec[i]);
+	cargar(vec,dim-1,i+1);
+	
+}
+void mostrar(int vec[],int dim, int i){
+
+	if(dim<0)
+		return;
+	
+	printf("el valor es %d\n ",vec[i]);
+	mostrar(vec,dim-1,i+1);
+	
+}
+
+
+int main() {
+	int vec[10],dim;
+	printf("ingrese dimension del arreglo");
+	scanf("%d",&dim);
+	cargar(vec,dim-1,0);
+	mostrar(vec,dim-1,0);
+    printf("\n la suma de los elementos del arreglo es %d",suma(vec,dim-1));
+    return 0;
+}

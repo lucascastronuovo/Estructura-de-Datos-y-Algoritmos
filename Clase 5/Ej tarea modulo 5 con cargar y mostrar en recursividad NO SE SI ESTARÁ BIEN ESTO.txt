@@ -1,0 +1,71 @@
+#include <stdio.h>
+
+
+int producto(int mat[][10], int dim, int i){
+
+	if (i == dim)
+		return 1;
+
+	return producto(mat, dim, i+1)*mat[i][i];
+}
+
+
+void mostrar (int mat[][10], int dim, int i, int j) {
+
+	
+
+	if (i == dim)
+		return;
+
+	if (j < dim) {
+
+		printf("\t %d ", mat[i][j]);
+		mostrar(mat,dim, i, j+1);
+	}
+		
+	else {
+	printf("\n");
+	mostrar(mat, dim, i+1, 0);
+		
+	}
+		
+	
+	
+}
+
+
+void cargar(int mat[][10], int dim, int i, int j) {
+
+	if (i == dim)
+		return;
+
+	if (j < dim) {
+		
+		printf("Valor %d %d: ", i, j);
+		scanf("%d", &mat[i][j]);
+		cargar(mat, dim, i, j+1);
+		}
+	else
+		cargar(mat, dim, i+1, 0);
+	
+	
+}
+
+
+
+int main() {
+    int mat[10][10], dim;
+
+	printf("Dim: ");
+	scanf("%d", &dim);
+
+	cargar(mat, dim, 0, 0);
+	mostrar(mat, dim, 0, 0);
+
+	printf("El producto de la diag pric es %d", producto(mat, dim, 0));
+	
+	
+    return 0;
+}
+
+

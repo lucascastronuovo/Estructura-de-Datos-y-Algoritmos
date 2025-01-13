@@ -1,0 +1,59 @@
+#include <stdio.h>
+
+/*
+
+1. Generar los primeros cuatro números abundantes.
+
+Un número abundante es todo número natural que
+cumple que, la suma de sus divisores propios es mayor
+que el propio número.
+
+Por ejemplo, 12 es abundante ya que
+sus divisores son 1, 2, 3, 4 y 6 y
+se cumple que 1+2+3+4+6=16, que es mayor que el propio 12.
+*/
+
+int main() {
+int num = 1,num_abund, cant_num_abund = 0, i = 1,sum_div = 0; 
+
+printf("Números Abundantes:\n ");
+for (i=1; i < num; i++) {
+        if (num % i == 0 && i != num)
+            sum_div += i;
+      }
+      
+    if (num < sum_div) {
+        num_abund = num;
+        printf("%d-", num_abund);
+        cant_num_abund++;
+
+        }
+
+    num++;
+    
+while (cant_num_abund < 4) {    
+    i = 1;
+    sum_div = 0;
+    
+    
+
+
+    for (i=1; i < num; i++) {
+        if (num % i == 0 && i != num)
+            sum_div += i;
+      }
+
+    if (num < sum_div) {
+        num_abund = num;
+        printf("%d-", num_abund);
+        cant_num_abund++;
+
+        }
+
+    num++;    
+}            
+    
+    return 0;
+}
+
+

@@ -1,0 +1,84 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+typedef struct alumnos{
+        int legajo;
+        char nombre[30];
+        int cant;
+        struct alumnos *sig;
+}nodoa;
+
+
+void crearlista(nodoa *h){
+	printf("ingrese legajo");
+	scanf("%d",&h->legajo);
+	if (h->legajo==0)
+		h->sig=NULL;
+	else{
+		printf("ingrese nombre y apellido");
+		scanf("%s",h->nombre);
+		printf("ingrese cant de materias aprobadas");
+		scanf("%d",&h->cant);
+	    h->sig=(nodoa *)malloc(sizeof(nodoa));
+		crearlista(h->sig);
+		}
+	}
+	
+void mostrarlista(nodoa *h){
+	if (h->sig!=NULL){
+		printf("%d \n",h->legajo);
+		printf("%s \n",h->nombre);
+		printf("%d  \n",h->cant);
+		mostrarlista(h->sig);
+		
+	}
+	
+}
+nodoa *insertarporcabeza(nodoa *h){
+	nodoa *aux=NULL;
+	if(h->cant==0){
+		aux=(nodoa *)malloc(sizeof(nodoa));
+		aux->legajo=h->legajo;
+		strcpy(aux->nombre,h->nombre);
+		aux->cant=1;
+		aux->sig=h;
+		h=aux;
+	
+	}
+	return h;
+}
+void insertar(nodoa *h){
+	nodoa *aux=NULL;
+	while(h->sig!=NULL){
+		if(h->cant==0){
+			aux=(nodoa *)malloc(sizeof(nodoa));
+		    aux->legajo=h->legajo;
+		    strcpy(aux->nombre,h->nombre);
+		    aux->cant=1;
+			aux->sig=h->sig;
+			h->sig=aux;
+						
+		}
+		h=h->sig;
+	}
+
+
+
+
+	
+}
+
+int main() {
+    nodoa *p=NULL;
+	nodoa *q=NULL;
+	p=(nodoa *)malloc(sizeof(nodoa));
+	q=(nodoa *)malloc(sizeof(nodoa));
+	crearlista(p);
+	mostrarlista(p);
+	p=insertarporcabeza(p);
+	insertar(p);
+	printf("la lista con inserciones es");
+	mostrarlista(p);
+	}
+	

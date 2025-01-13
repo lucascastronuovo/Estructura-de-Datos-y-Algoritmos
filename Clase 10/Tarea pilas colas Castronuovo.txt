@@ -1,0 +1,116 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+
+
+
+
+
+
+typedef struct pila
+{
+	int valor;
+
+    struct pila *sig;
+}nodop;
+
+
+int promedio_pilas(nodop** p,int c){
+
+	int prom, sum=0, cont=0 ;
+	
+	while(p!=NULL){
+
+	nodop* aux;
+    nodop v;
+
+	v=**p;
+
+	aux=*p;
+
+	*p=(*p)->sig;
+	
+
+	if (c <= 4){
+
+		sum+= aux->valor;
+		cont++;
+		c--;
+		
+	}
+		
+	free(aux);
+		
+	}
+
+	if (cont == 0){
+		printf("No se pudo calcular el promedio");
+		
+	}
+	else{
+
+		prom = sum / cont;
+
+		
+	}
+	
+	return prom;
+}
+
+
+
+
+
+
+nodop* crear_nodo(int valor)
+{
+   nodop* u;
+   u = (nodop *)malloc(sizeof(nodop));
+   u->valor = valor;
+
+   u->sig = NULL;
+
+   return u;
+}
+
+void apilar(nodop** p, nodop* u)
+{
+    printf("apilar_nodo\n");
+
+
+  	u->sig = *p;
+  	printf("%02d p=%p u=%p\n", u->valor, *p, u);
+	*p = u;
+}
+
+
+/*
+1) Desarrollar un programa en C que permita cargar
+un pila de n números enteros. 
+Calcular y mostrar ( en una función no en el programa
+principal) en el promedio de los cuatro primeros números
+ingresados a la pila.
+Si no los hubiera, mostrar un cartel aclaratorio.
+*/
+
+int main() {
+
+	int i, num, CANT, promedio;
+    nodop* p=NULL;
+
+	printf("Ingrese cantidad: ");
+	scanf("%d",&CANT);
+		
+   for(i=0; i<CANT; i++)
+   {
+   	printf("Ingrese un numero: ");
+   	scanf("%d",&num);
+	apilar(&p, crear_nodo(num));
+   }
+
+    promedio = promedio_pilas(&p, CANT);
+    
+	printf("El promedio de los 4 primeros nums ingresados es: %d", promedio);
+	
+    return 0;
+}

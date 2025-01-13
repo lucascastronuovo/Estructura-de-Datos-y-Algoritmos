@@ -1,0 +1,80 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+/*
+
+5. Escribir un programa efectúe las siguientes operaciones:
+a) Declarar un arreglo de quince posiciones de tipo float. Cargar sus elementos y 
+mostrarlo.
+b) Declarar un puntero a float.
+c) Asignar al puntero la dirección del arreglo.
+d) Recorrer con el puntero el arreglo, mostrando la dirección y el contenido de cada 
+posición.
+
+
+
+*/
+
+
+void cargar_vec(float v[20], int dim, float *q){
+
+	int i;
+	
+	q = &v[0];
+
+	for (i = 0; i < dim; i++){
+
+		printf("Número de posición %d: ", i);
+		scanf("%f", (q+i));
+		
+	}
+
+	
+}
+
+
+void mostrar_vec(float v[20], int dim, float *q) {
+
+	int i;
+
+	q = &v[0];
+
+	for (i = 0; i < dim; i++){
+
+		printf("\n Valor %d: %f", i, *(q+i));
+		
+	}
+
+	
+}
+
+int main() {
+
+	float vec[20];
+	
+	int dim = 15;
+
+	float *p;
+	
+	int i;
+
+	cargar_vec(vec, dim, p);
+
+	mostrar_vec(vec, dim, p);
+
+	free(p);
+
+	p = &vec[0];
+
+	for (i = 0; i < dim; i++){
+
+		printf("\n Valor %d - dirección %p: %f", i, p + i, *(p+i));
+		
+	}
+	
+	
+	
+	
+    return 0;
+}
+ 

@@ -1,0 +1,131 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+
+typedef struct tiponodo
+{
+	int num;
+
+    struct tiponodo *siguiente;
+}nodo;
+
+#define CANT 5
+
+/*
+
+Crear una cola con la siguiente información:
+
+num: numero entero.
+siguiente: puntero al próximo elemento de la cola.
+
+
+Escribir una función para calcular:
+a) La sumatoria de los elementos de la cola múltiplos del último número ingresado en la cola, si no hubiese ninguno mostrar una leyenda.
+
+b) El promedio de aquellos valores múltiplos de 5. Si no los hay, mostrar una leyenda.
+*/
+
+void mostrar (nodo aux, int *ultimo, int *sum, int *sump, int *contp)
+{   
+    if (aux.num%*ultimo==0 && aux.num!=*ultimo)
+      *sum=*sum+aux.num;
+
+    if(aux.num%5==0){
+      *sump=*sump+aux.num;
+      *contp=*contp+1;
+    }
+
+  	printf("%d \n", aux.num);
+}
+
+nodo* crear_nodo(int dato)
+{
+   nodo* u;
+   u = (nodo *)malloc(sizeof(nodo));
+
+   u->num = dato;
+
+   u->siguiente = NULL;
+
+   return u;
+}
+
+void acolar(nodo** p,nodo** u, nodo *q)
+{
+   printf("acolar_nodo\n");
+	if(*p==NULL)
+    *p = *u = q; /*porque hay uno solo*/
+   else
+   {
+    	(*u)->siguiente = q;
+    	(*u) = q;
+   }
+  	printf("%02d p=%p u=%p\n", q->num, *p, *u);
+}
+
+nodo desacolar(nodo** inicio)
+{
+	nodo* aux;
+   nodo datos;
+
+	datos=**inicio;
+
+	aux=*inicio;
+
+	*inicio=(*inicio)->siguiente;
+	free(aux);
+
+    return datos;
+}
+
+
+int promedio_m5(int *sump, int *contp){
+
+    int prom;
+
+    if (*contp != 0)
+    prom = *sump/ *contp;
+
+
+    return prom;
+
+}
+
+int main()
+{
+
+   int i,num, sum=0, ultimo, sump=0, contp=0;
+   nodo* p=NULL;
+   nodo* u=NULL;
+
+   for(i=0; i<CANT; i++)
+   {
+       printf("Ingrese un numero: ");
+       scanf("%d",&num);
+       acolar(&p, &u, crear_nodo(num));
+
+   }
+
+  ultimo=num;
+
+   printf("\nVamos a desacolar todo\n");
+	while(p!=NULL)
+   {
+    	mostrar(desacolar(&p), &ultimo, &sum, &sump, &contp);
+
+   }
+
+    if (sum != 0)
+      printf("a) Sumatoria: %d", sum);
+    else
+    printf("\na) No hay suma");
+
+    if (sump == 0)
+    printf("\nb) No se pudo calcular el promedio");
+    else
+    printf("\nb) El promedio es: %d", promedio_m5(&sump, &contp));
+    
+   return 0;
+}
+
+  

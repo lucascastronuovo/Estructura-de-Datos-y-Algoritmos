@@ -1,0 +1,18 @@
+
+/*
+Desarrollar un programa en C que permita crear una lista simplemente enlazada con la siguiente información de una universidad:
+
+Legajo
+Edad
+Cantidad de materias cursadas
+Cantidad de materias aprobadas.
+La carga finaliza con cero en el legajo.
+
+
+
+Generar un archivo con aquellos alumnos con más del 50% de materias aprobadas.
+
+Mostrarlo en pantalla.
+
+
+*/

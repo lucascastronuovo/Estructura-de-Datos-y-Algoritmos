@@ -1,0 +1,21 @@
+#include <stdio.h>
+
+void invertir(int c){
+	if(c=='\n')
+		return;
+	
+	c=getchar();
+	invertir(c);
+	putchar(c);
+	
+}
+
+
+ int main(){
+	 int c;
+	 printf("ingrese frase terminada en enter");
+	 c=getchar();
+	 invertir(c);
+	 putchar(c);
+	 
+ }

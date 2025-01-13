@@ -1,0 +1,160 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+
+typedef struct lista{
+	int num;
+	struct lista *sig;
+ }nodol;
+
+
+void crear_lista (nodol *q)
+{
+
+	printf("Ingrese número: ");
+    scanf("%d",&q->num);
+
+    if (q->num==-2)
+        q->sig=NULL;
+    else
+	{
+        q->sig=(nodol*)malloc(sizeof(nodol));
+        crear_lista (q->sig);
+
+	}
+	return;
+}
+
+void mostrar_lista (nodol *q)
+{
+    if (q->sig !=NULL)
+	{
+        printf ("%d\n",q->num);
+        mostrar_lista (q->sig);
+	}
+	return;
+}
+
+void generar_lista_impares (nodol *q, nodol *h){
+
+	while(q->sig != NULL) {
+
+		if (q->num % 2 != 0) {
+
+			h->num = q->num;
+			h->sig=(nodol*)malloc(sizeof(nodol));
+			h=h->sig;
+			
+		}
+
+		q=q->sig;
+		
+	} 
+
+	h->sig=NULL;
+
+
+	
+}
+
+
+int determinar_promedio(nodol *q){
+
+	float prom, suma = 0, cont = 0;
+
+	
+
+	 while (q->sig !=NULL)
+	{
+        suma += q->num;
+		cont++;
+		q=q->sig;
+	}
+
+	if (cont != 0){
+		prom = suma / cont;
+	}
+	
+	return prom;
+	
+}
+
+
+nodol* eliminar_cabezadelista(nodol* h, float prom){
+	
+	nodol *aux;
+    while(h->num < prom)
+    {
+        aux=h->sig;
+        free(h);
+        h=aux;
+
+    }
+    return h;
+}
+
+
+void eliminar(nodol* h, float prom){
+	
+	nodol *aux;
+    while(h->sig!=NULL && h->sig->sig!=NULL)
+    {
+        if(h->sig->num < prom)
+        {
+            aux=h->sig->sig;
+            free(h->sig);
+            h->sig=aux;
+        }
+        else
+        {
+            h=h->sig;
+        }
+    }
+
+}
+
+
+/*
+
+a)	Crear y mostrar la lista con números enteros.
+	Termina con num=-2.
+
+b)	Insertar en otra lista los números impares. Mostrarla.
+
+c)	Eliminar todos los valores menores al promedio de la
+	lista original en la lista de números impares.
+	Mostrarla
+
+*/
+
+int main() {
+
+	nodol *p = NULL;
+	nodol *i = NULL;
+
+	float promedio;
+
+	
+	p=(nodol*)malloc(sizeof(nodol));
+	i=(nodol*)malloc(sizeof(nodol));
+	
+	crear_lista(p);
+	mostrar_lista(p);
+
+	generar_lista_impares(p,i);
+	printf("Lista nueva con impares:\n");
+	mostrar_lista(i);
+
+	promedio = determinar_promedio(p);
+
+	printf("El promedio es %f \n", promedio);
+
+	i=eliminar_cabezadelista(i, promedio);
+	eliminar(i, promedio);
+
+	printf("Lista con los impares sin numeros menores a promedio:\n");
+	mostrar_lista(i);
+	
+    return 0;
+}
+  

@@ -1,0 +1,286 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+
+typedef struct alumno{
+	int legajo;
+	char nom_ape[ 30 ];
+	int cant_mat;
+	int mat_apro;
+	struct alumno *sig;
+ }nodoa;
+
+typedef struct alumno_aprob_total{
+	int legajo;
+	char nom_ape[ 30 ];
+	struct alumno_aprob_total *sig;
+ }nodoaat;
+
+
+typedef struct alumno_porcent{
+	int legajo;
+	char nom_ape[ 30 ];
+	int porcent;
+	struct alumno_porcent *sig;
+ }nodoap;
+
+
+/*
+
+Dada la siguiente información sobre alumnos de una
+universidad, crear una lista simplemente enlazada con
+el legajo del alumno, su nombre y apellido, cantidad de
+materias y las aprobadas.
+
+Termina con Legajo igual a 0. Los datos se
+ingresan ordenados por legajo.
+
+-Generar una nueva lista con el legajo, nombre y apellido
+y porcentaje de materias no aprobadas.
+
+-Generar una nueva lista con aquellos alumnos que
+aprobarn todas las materias cursadas que tenga legajo,
+nombre y apellido del alumno.
+
+-Eliminar aquellos alumnos que no aprobaron materias
+de la lista original.
+
+-Ingresar los datos de un nuevo alumno e insertarlo
+donde corresponde para que la lista se mantenga ordenada
+por legajo en la lista original.
+
+
+Mostrar las listas en cada caso.
+
+
+
+*/
+
+
+void crear_lista_alumno (nodoa *h)
+{
+	printf("Legajo: ");
+    scanf("%d",&h->legajo);
+
+
+	printf("Nombre y Apellido: ");
+	scanf(" %[^\n]", h->nom_ape);
+
+	printf("Cantidad Materias Cursadas: ");
+    scanf("%d",&h->cant_mat);
+
+
+
+	printf("Cantidad Materias Aprobadas: ");
+	scanf("%d",&h->mat_apro);
+
+	
+    if (h->legajo==0)
+        h->sig=NULL;
+    else
+	{
+        h->sig=(nodoa*)malloc(sizeof(nodoa));
+        crear_lista_alumno(h->sig);
+
+	}
+	return;
+}
+
+
+void mostrar_lista(nodoa *h)
+{
+    if (h->sig !=NULL)
+	{
+        printf ("Legajo: %d\n",h->legajo);
+		printf ("Nombre y Apellido: %s\n",h->nom_ape);
+		printf ("Materias Cursadas: %d\n",h->cant_mat);
+		printf ("Materias Aprobadas: %d\n",h->mat_apro);
+
+		printf("\n");
+        mostrar_lista(h->sig);
+	}
+	return;
+}
+
+void mostrar_lista_porcent(nodoap *h)
+{
+    if (h->sig !=NULL)
+	{
+        printf ("Legajo: %d\n",h->legajo);
+		printf ("Nombre y Apellido: %s\n",h->nom_ape);
+		printf ("Porcentaje Materias Desaprobadas: %d \n",h->porcent);
+
+		printf("\n");
+        mostrar_lista_porcent(h->sig);
+	}
+	return;
+}
+
+
+void generar_lista_porcent(nodoa *h, nodoap *i){
+
+	int porcentaje;
+
+	
+	while(h->sig != NULL){
+
+		porcentaje = ((h->cant_mat - h->mat_apro) * 100) / h->cant_mat;
+
+		i->legajo=h->legajo;
+		strcpy(i->nom_ape,h->nom_ape);
+		i->porcent=porcentaje;
+		
+		i->sig=(nodoap*)malloc(sizeof(nodoap));
+		i=i->sig;
+
+		h=h->sig;
+		
+	}
+
+	i->sig=NULL;
+}
+
+
+void generar_lista_aprob_total (nodoa *h, nodoaat *i){
+
+	while(h->sig != NULL){
+
+		if (h->cant_mat == h->mat_apro){
+
+			i->legajo=h->legajo;
+			strcpy(i->nom_ape,h->nom_ape);
+			
+			i->sig=(nodoaat*)malloc(sizeof(nodoaat));
+			i=i->sig;
+			
+		}
+
+		h=h->sig;
+
+	}
+
+	i->sig=NULL;
+}
+
+
+void mostrar_lista_aprob_total(nodoaat *h)
+{
+    if (h->sig !=NULL)
+	{
+        printf ("Legajo: %d\n",h->legajo);
+		printf ("Nombre y Apellido: %s\n",h->nom_ape);
+
+		printf("\n");
+        mostrar_lista_aprob_total(h->sig);
+	}
+	return;
+}
+
+
+nodoa* eliminar_cabezadelista(nodoa* h)
+{nodoa *aux;
+    while(h->cant_mat != h->mat_apro)
+    {
+        aux=h->sig;
+        free(h);
+        h=aux;
+
+    }
+    return h;
+}
+
+void eliminar(nodoa* h)
+{nodoa *aux;
+    while(h->sig!=NULL && h->sig->sig!=NULL)
+    {
+        if(h->sig->cant_mat != h->sig->mat_apro)
+        {
+            aux=h->sig->sig;
+            free(h->sig);
+            h->sig=aux;
+        }
+        else
+        {
+            h=h->sig;
+        }
+    }
+
+}
+
+
+void insertar_nuevo_alumno (nodoa *h)
+{nodoa *aux;
+    while(h->sig != NULL)
+    {
+        if(h->sig->legajo != (h->legajo) + 1) 
+        {
+            aux=(nodoa *)malloc(sizeof(nodoa));
+
+			printf("Nuevo Alumno:\n");
+
+			printf("Legajo: ");
+		    scanf("%d",&aux->legajo);
+
+
+			printf("Nombre y Apellido: ");
+			scanf(" %[^\n]", aux->nom_ape);
+
+			printf("Cantidad Materias Cursadas: ");
+		    scanf("%d",&aux->cant_mat);
+
+
+
+			printf("Cantidad Materias Aprobadas: ");
+			scanf("%d",&aux->mat_apro);
+			
+            aux->sig=h->sig;
+            h->sig=aux;
+
+			
+
+        }
+
+		h=h->sig;
+        
+    }
+	
+	
+}
+
+int main() {
+
+	nodoa *p =NULL;
+	nodoap *q =NULL;
+	nodoaat *t =NULL;
+	
+	p=(nodoa*)malloc(sizeof(nodoa));
+	q=(nodoap*)malloc(sizeof(nodoap));
+	t=(nodoaat*)malloc(sizeof(nodoaat));
+	
+	crear_lista_alumno(p);
+	
+	printf("Lista original:\n");
+	mostrar_lista(p);
+
+	generar_lista_porcent(p,q);
+	printf("Lista Porcentajes:\n");
+	mostrar_lista_porcent(q);
+
+	generar_lista_aprob_total(p,t);
+	printf("Lista Alumnos Aprobados:\n");
+	mostrar_lista_aprob_total(t);
+
+	p=eliminar_cabezadelista(p);
+	eliminar(p);
+	printf("Lista sin alumnos desaprobados:\n");
+	mostrar_lista(p);
+	
+	//insertar_nuevo_alumno(p);
+	//printf("La lista con el nuevo alumno:\n");
+	//mostrar_lista(p);
+	
+    return 0;
+}
+  
+  

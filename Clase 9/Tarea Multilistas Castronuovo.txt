@@ -1,0 +1,163 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+/*
+Desarrollar un programa en C que permita cargar los
+datos en una multilista de la siguiente manera:
+en la lista principal se ingresan diferentes años,
+ordenados de menor a mayor y por cada año, el mes y
+cotización promedio del dolar durante ese mes.
+La carga termina con 0 en ambos casos. Mostrar 
+la mulitilista. Ingresar un el año actual, el mes actual
+y la cotización promedio del dolar e insertarlo en la 
+multilista.
+
+
+
+*/
+
+typedef struct lista_a{
+	int anio;
+	struct lista_m *cab;
+	struct lista_a *sig;
+ }nodoa;
+
+typedef struct lista_m{
+	int mes;
+	int cot_prom_d;
+	struct lista_m *sig;
+ }nodom;
+
+
+
+
+
+void cargar_mes(nodom *r){
+
+	printf("Ingrese mes: ");
+	scanf("%d", &r->mes);
+
+	if (r->mes == 0){
+
+		r->sig=NULL;
+		return;
+
+		
+	}
+		
+	else{
+		
+	
+	printf("Ingrese Cotización promedio en dolar: ");
+	scanf("%d", &r->cot_prom_d);
+	r->sig=(nodom*)malloc(sizeof(nodom));
+	cargar_mes(r->sig);
+
+
+		
+	}
+	
+	
+}
+
+
+
+void cargar_anios(nodoa *h){
+
+	printf("Ingrese año: ");
+	scanf("%d", &h->anio);
+
+	
+	h->cab=(nodom*)malloc(sizeof(nodom));
+	cargar_mes(h->cab);
+
+	if (h->anio == 0 && h->cab->mes == 0 ){
+		h->sig=NULL;
+		return;
+	}
+
+	else{
+	
+	h->sig=(nodoa*)malloc(sizeof(nodoa));
+	cargar_anios(h->sig);
+	
+	}
+		
+	
+}
+
+
+void mostrar_mes(nodom *r){
+
+	if (r->sig!=NULL){
+
+		printf("Mes: %d\n", r->mes);
+		printf("Cotización promedio dolar: %d\n", r->cot_prom_d);
+
+		mostrar_mes(r->sig);
+		
+	}
+	
+}
+
+void mostrar_anios(nodoa *h){
+
+	if (h->sig!=NULL){
+
+		printf("\n\nAño %d:\n", h->anio);
+		mostrar_mes(h->cab);
+
+		mostrar_anios(h->sig);
+		
+	}
+	
+}
+
+void insertar_anio_mes (nodoa *h)
+{nodoa *aux;
+    while(h->sig!=NULL)
+    {           
+
+        h=h->sig;
+    }
+
+	aux=(nodoa *)malloc(sizeof(nodoa));
+
+	printf("Ingrese año: ");
+	scanf("%d", &aux->anio);
+
+	h->cab=(nodom*)malloc(sizeof(nodom));
+
+	printf("Ingrese mes: ");
+	scanf("%d", &aux->cab->mes);
+
+	printf("Ingrese Cotización promedio en dolar: ");
+	scanf("%d", &aux->cab->cot_prom_d);
+	
+	
+	aux->sig=h->sig;
+	h->sig=aux;
+}
+
+
+int main() {
+
+	nodoa *a=NULL;
+	nodom *m=NULL;
+	
+    a=(nodoa*)malloc(sizeof(nodoa));
+	m=(nodom*)malloc(sizeof(nodom));
+
+	cargar_anios(a);
+	mostrar_anios(a);
+
+	printf("\n");
+	insertar_anio_mes(a);
+	mostrar_anios(a);
+
+	
+
+
+	
+    return 0;
+}

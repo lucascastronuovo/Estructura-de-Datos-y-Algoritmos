@@ -1,0 +1,95 @@
+#include <stdio.h>
+
+int producto(x,y){
+  if (y == 0)
+    return 0;
+  else
+    return producto(x,y-1)+x;
+  
+  
+}
+
+
+int division(x,y){
+  if (x-y < 0)
+    return 0;
+  else
+    return division(x-y,y)+1;
+  
+  
+}
+
+int potencia(x,y){
+  if (y==0)
+    return 1;
+  else
+    return potencia(x,y-1)*x;
+  
+  
+}
+
+void cargar(int vec[], int dim, int i){
+
+    if (dim == 0 )
+      return;
+
+    printf("Valor %d: ", i);
+    scanf("%d", &vec[i]);
+      
+     cargar(vec,dim-1,i+1);
+  
+}
+
+void mostrar(int vec[], int dim, int i){
+
+    if (dim == 0 )
+      return;
+
+    printf("\nValor [%d]: %d", i, vec[i]);
+    
+      
+     mostrar(vec,dim-1,i+1);
+  
+}
+
+int suma_vec(int vec[], int dim, int i){
+
+    if (dim == 0 )
+      return 0;
+
+   
+    
+      
+  return   suma_vec(vec,dim-1,i+1)+vec[i];
+  
+}
+
+
+int main() {
+
+  int x, y, result, result_p, vec[20], dim, suma=0;
+
+  printf("Valor 1: ");
+    scanf("%d", &x);
+
+  printf("Valor 2: ");
+  scanf("%d", &y);
+
+
+  printf("Ingrese dimensión: ");
+  scanf("%d", &dim);
+
+  cargar(vec, dim, 0);
+  mostrar(vec, dim, 0);
+
+  suma=suma_vec(vec, dim, 0);
+    
+  result= producto(x,y);
+
+  result_p=potencia(x,y);
+
+  printf("\nResultado: %d", result);
+  printf("\nResultado: %d", result_p);
+  printf("\nSuma vec: %d", suma);
+    return 0;
+}

@@ -1,0 +1,44 @@
+#include <stdio.h>
+void cargar(int mat[][10],int d){
+	int i,j;
+	for(i=0;i<d;i++){
+		for(j=0;j<d;j++){
+			printf("\n ingrese valor %d %d  ",i,j);
+			scanf("%d",&mat[i][j]);
+		}
+	}
+
+}
+void mostrar(int mat[][10],int d){
+	int i,j;
+	for(i=0;i<d;i++){
+		
+		for(j=0;j<d;j++){
+			printf("\t %d  ",mat[i][j]);
+			
+		}
+		printf("\n");
+	}
+
+}
+int producto (int mat[][10],int d){
+
+	if (d<0)
+		return 1;
+
+	return producto(mat,d-1)*mat[d][d];
+}
+
+
+
+
+
+int main() {
+	int mat[10][10],dim;
+    printf("Ingrese la cantidad de filas o colu ");
+	scanf("%d",&dim);
+	cargar(mat,dim);
+	mostrar(mat,dim);
+	printf("el producto de los elementos de la diag es %d",producto(mat,dim-1));
+    return 0;
+}

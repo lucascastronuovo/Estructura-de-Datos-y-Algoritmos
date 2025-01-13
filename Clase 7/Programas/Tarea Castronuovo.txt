@@ -1,0 +1,156 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+/*
+Desarrollar un programa en C que permita:
+
+Crear una lista simplemente enlazada con el número de legajo,
+nombre y apellido y cantidad de materias aprobadas
+de los alumnos de una facultad. La carga de datos
+finaliza cuando el número de legajo es igual a cero.
+
+Mostrar la lista.
+Mostrar cuántos alumnos tiene más de 10 materias aprobadas.
+Generar una nueva lista con aquellos alumnos que
+tiene menos de 3 materias aprobadas.
+
+*/
+
+typedef struct lista_alumnos {
+
+	int legajo;
+	char nombre[20];
+	char apellido[20];
+	int materias_aprob;
+	struct lista_alumnos *sig;
+
+}nodon;
+
+
+
+void crear_lista_alumno(nodon *h) {
+
+	printf("Ingrese legajo: ");
+	scanf("%d", &h->legajo);
+
+	while(h->legajo != 0){
+
+		printf("\n Nombre: ");
+		scanf("%s",h->nombre);
+		
+		
+		
+		printf("\n Apellido: ");
+		scanf("%s",h->apellido);
+		
+
+		printf("\n Materias aprobadas: ");
+		scanf("%d",&h->materias_aprob);
+		h->sig=(nodon *)malloc(sizeof(nodon));
+		h=h->sig;
+		
+		printf("\n Ingrese legajo: ");
+		scanf("%d", &h->legajo);
+	}
+	
+
+	h->sig = NULL;
+	
+	
+	return;	
+}
+
+
+void mostrar_lista_alumno(nodon *h){
+
+	while(h->sig != NULL) {
+		
+		printf("Legajo: %d\n", h->legajo);		
+		printf("Nombre: %s\n", h->nombre);
+		printf("Apellido: %s\n", h->apellido);
+		printf("Materias Aprobadas: %d\n", h->materias_aprob);
+		
+        printf("\n");
+		
+
+		h=h->sig;
+			
+		
+	}
+
+	return;
+}
+
+
+void mostrar_alumnos_10_mat_aprob(nodon *h){
+
+	printf("Alumnos con 10 materias aprobadas: \n");
+	
+	while(h->sig != NULL) {
+		
+		if (h->materias_aprob > 10)		{
+		printf("Nombre: %s\n", h->nombre);
+		printf("Apellido: %s\n", h->apellido);
+
+			}
+		
+
+		
+
+		h=h->sig;
+			
+		
+	}
+
+	return;
+	
+	
+}
+
+
+void generar_lista_alumn_3_mat(nodon *h, nodon *a){
+
+	while(h->sig!=NULL){
+		if(h->materias_aprob < 3){
+			a->legajo=h->legajo;
+			strcpy(a->nombre,h->nombre);
+			strcpy(a->apellido,h->apellido);
+			a->materias_aprob=h->materias_aprob;
+			a->sig=(nodon *)malloc(sizeof(nodon));
+			a=a->sig;
+		}
+		h=h->sig;
+	}
+	a->sig=NULL; 
+
+	
+}
+
+
+int main() {
+	
+    nodon *p = NULL;
+	nodon *q = NULL;
+	p=(nodon *)malloc(sizeof(nodon));
+
+	crear_lista_alumno(p);
+    mostrar_lista_alumno(p);
+	
+    mostrar_alumnos_10_mat_aprob(p);
+	generar_lista_alumn_3_mat(p,q);
+	mostrar_lista_alumno(q);
+	
+	
+
+	
+
+	
+
+
+	
+
+	
+    return 0;
+}
+  

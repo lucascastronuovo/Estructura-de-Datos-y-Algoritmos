@@ -1,0 +1,190 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+
+/*
+
+Desarrollar un programa en C que permita crear una lista
+simplemente enlazada con la siguiente estructura:
+
+Typedef struct lista{
+
+int num;
+
+int num1;
+
+int num3;
+
+struct lista *sig;
+
+}nodo;
+
+
+
+Mostrar dicha lista (la carga finaliza con 0 en el primer
+número ingresado).
+Si la suma de los tres números del nodo es mayor a 20,
+insertar antes de cada nodo el doble de cada valor del
+nodo.
+Si la suma de los tres números es igual a 20, eliminar
+dicho nodo.
+Generar una nueva lista con aquellos nodos eliminados.
+Mostrar dicha lista.
+
+
+
+*/
+
+
+
+typedef struct lista{
+	int num;
+	int num1;
+	int num3;
+	struct lista *sig;
+	
+	}nodo;
+
+void generar(nodo *j, nodo *i){
+	while(j->sig!=NULL){
+		if((j->num + j->num1 + j->num3) == 20){
+			i->num=j->num;
+			i->num1=j->num1;
+			i->num3=j->num3;
+			i->sig=(nodo *)malloc(sizeof(nodo));
+			i=i->sig;
+		}
+		j=j->sig;
+	}
+	i->sig=NULL;
+}
+
+nodo *eliminarporcabeza(nodo *h){
+	nodo *aux=NULL;
+	
+	while((h->num + h->num1 + h->num3) == 20){
+		aux=h->sig;
+		free(h);
+		h=aux;		
+		
+	}
+	return h;
+}
+
+
+void eliminar(nodo *h){
+	nodo *aux=NULL;
+	
+	while(h->sig!=NULL){
+        if((h->sig->num + h->sig->num1 + h->sig->num3) == 20){
+			aux=h->sig->sig;
+			free(h->sig);
+			h->sig=aux;
+			
+		}
+        else{
+			h=h->sig;
+		}			
+		
+	}
+}
+
+
+nodo *insertarporcabeza(nodo *h){
+	nodo *aux=NULL;
+	if( (h->num + h->num1 + h->num3) > 20){
+		aux=(nodo *)malloc(sizeof(nodo));
+		aux->num=(h->num) * 2;
+		aux->num1=(h->num1) * 2;
+		aux->num3=(h->num3) * 2;
+		aux->sig=h;
+		h=aux;
+	
+	}
+	return h;
+}
+
+void insertar(nodo *h){
+	nodo *aux=NULL;
+	nodo *hsig= NULL;
+	hsig=(nodo *)malloc(sizeof(nodo));
+	
+	while(h->sig!=NULL){
+	
+		hsig= h->sig;
+		if((hsig->num + hsig->num1 + hsig->num3) > 20){
+			
+			aux=(nodo *)malloc(sizeof(nodo));
+		    aux->num=(hsig->num) * 2;
+		    aux->num1=(hsig->num1) * 2;
+			aux->num3=(hsig->num3) * 2;
+			h->sig = aux;
+			aux->sig=hsig;
+						
+		}
+		h=hsig;
+	}
+
+}
+
+
+
+void crearlista(nodo *h){
+	
+	printf("Número 1: ");
+	scanf("%d",&h->num);
+	
+	while(h->num!=0){
+		printf("Número 2: ");
+		scanf("%d",&h->num1);
+		
+		printf("Número 3: ");
+	    scanf("%d",&h->num3);
+		
+		h->sig=(nodo *)malloc(sizeof(nodo));
+		h=h->sig;
+		
+		printf("Número 1: ");
+	    scanf("%d",&h->num);
+	}
+	h->sig=NULL;
+	
+	}
+
+
+void mostrarlista(nodo *h){
+	while(h->sig!=NULL){
+		printf("%d \n",h->num);
+		printf("%d \n",h->num1);
+		printf("%d \n",h->num3);
+		h=h->sig;
+		
+	}
+
+	}
+
+
+int main() {
+    nodo *p = NULL;
+	nodo *q = NULL;
+
+	p = (nodo *)malloc(sizeof(nodo));
+	q = (nodo *)malloc(sizeof(nodo));
+	
+	crearlista(p);
+	printf("Lista sin insertar ni eliminar:\n ");
+	mostrarlista(p);
+	printf("------\n");
+	p=insertarporcabeza(p);
+	insertar(p);
+	generar(p,q);
+	p=eliminarporcabeza(p);
+	eliminar(p);
+	printf("Lista con insertar y eliminar:\n ");
+	mostrarlista(p);
+	printf("------\n");
+	printf("Nueva lista con nodos eliminados:\n ");
+	mostrarlista(q);
+    return 0;
+}
+  

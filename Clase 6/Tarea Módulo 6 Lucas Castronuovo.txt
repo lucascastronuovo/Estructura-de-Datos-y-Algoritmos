@@ -1,0 +1,91 @@
+#include <stdio.h>
+
+
+void mostrar_vec(float vec[15]) {
+
+	int i;
+
+	printf("Arreglo: ");
+	
+	for (i = 0; i < 15; i++){
+
+		printf("\n %f", vec[i]);
+		
+	}
+
+	
+}
+
+void cargar_vec(float vec[15]) {
+
+	int i;
+
+	for (i = 0; i < 15; i++) {
+
+		printf("Valor %d: ", i);
+		scanf("%f", &vec[i]);
+				
+	}
+
+
+
+
+	
+}
+
+
+int main() {
+
+	int i;
+
+	float vec[15];
+
+	float *p;
+
+	cargar_vec(vec);
+
+	mostrar_vec(vec);
+
+	p = &vec[0];
+
+	for (i = 0; i < 15; i++){
+
+		printf("\n En la dirección %p se encuentra el valor %f", (&p + i), *(p + i));		
+	}
+
+	
+	
+		
+    return 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+Un programa en C contiene las siguientes sentencias:
+
+int A[10]={12,15,17,21,34,45};
+
+int *B;
+
+B=A;
+
+*B=A[4]; 
+
+
+
+a) Representa el valor 34.
+b) Representa el valor 21.
+c) Representa el valor 17.
+d) Representa el valor 34.
+e) Representa el valor 34.
+
+
+

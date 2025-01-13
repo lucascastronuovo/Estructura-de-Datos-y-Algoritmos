@@ -1,0 +1,143 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct arbol
+{
+    int dato;
+    struct arbol *izq;
+    struct arbol *der;
+}treenode;
+
+/*
+Desarrollar un programa en C que permita ingresar
+números en un árbol binario de búsqueda.
+Mostrarlo en preorden, en orden y en postorden.
+Calcular y mostrar (en una función y no en el programa
+principal):
+
+El valor máximo múltiplo de la raíz.
+La cantidad de nodos hojas divisores de la raíz.
+La sumatoria de aquellos nodos pares con un hijo.
+
+*/
+
+void mostrar_preorden (treenode *hoja)
+{
+    if (hoja!=NULL)
+    {
+
+		printf("%d ",hoja->dato);
+        mostrar_preorden(hoja->izq);
+        mostrar_preorden(hoja->der);
+
+
+    }
+    return;
+}
+
+void mostrar_orden (treenode *hoja, int raiz, int *mayor_val, int *cont1, int *sumatoria)
+{
+    if (hoja!=NULL)
+    {
+
+        mostrar_orden(hoja->izq, raiz, mayor_val, cont1, sumatoria);
+        printf("%d ",hoja->dato);
+		if (hoja->dato % raiz == 0 && hoja->dato > *mayor_val)
+			*mayor_val=hoja->dato;
+		if(hoja->izq==NULL && hoja->der==NULL && raiz%hoja->dato==0)
+			*cont1=*cont1+1;
+		if(((hoja->izq!=NULL && hoja->der == NULL) || (hoja->der!=NULL && hoja->izq==NULL)) && hoja->dato%2==0)
+			*sumatoria=*sumatoria+hoja->dato;
+		
+        mostrar_orden(hoja->der, raiz, mayor_val, cont1, sumatoria);
+
+		
+
+    }
+    return;
+}
+
+void mostrar_postorden (treenode *hoja)
+{
+    if (hoja!=NULL)
+    {
+
+
+        mostrar_postorden(hoja->izq);        
+        mostrar_postorden(hoja->der);
+		printf("%d ",hoja->dato);
+
+    }
+    return;
+}
+
+void insertar (treenode **hoja,int elem)
+{
+    int numero=elem;
+    if (elem==-1)
+        return;
+    if (*hoja==NULL)
+    {
+        (*hoja)=(treenode*)malloc(sizeof(treenode));
+        (*hoja)->dato=elem;
+        (*hoja)->der=NULL;
+        (*hoja)->izq=NULL;
+    }else{
+
+
+
+
+    if (numero>(*hoja)->dato)
+    {
+
+        insertar (&(*hoja)->der,elem);
+
+    }
+    else
+    {
+
+        insertar (&(*hoja)->izq,elem);
+    }
+    }
+return;
+}
+
+
+
+void crear_arbol (treenode **hoja, int *raiz, int *mayor_val)
+{
+    int numero;
+
+    printf ("ingrese numero: ");
+    scanf ("%d",&numero);
+	*raiz = numero;
+	*mayor_val = numero;
+    while (numero!=-1)
+    {
+
+        insertar(&(*hoja),numero);
+        printf ("ingrese numero: ");
+        scanf ("%d",&numero);
+    }
+}
+
+
+int main() {
+	int raiz, mayor_val, cont1=0, sumatoria=0;
+    treenode* arbol=NULL;
+
+	crear_arbol (&arbol, &raiz, &mayor_val);
+
+	printf("Árbol en preorden: ");
+	mostrar_preorden(arbol);
+	printf("\nÁrbol en orden: ");
+	mostrar_orden(arbol, raiz, &mayor_val, &cont1, &sumatoria);
+	printf("\nÁrbol en postorden: ");
+	mostrar_postorden(arbol);
+
+	printf("\nEl máximo es: %d", mayor_val);
+	printf("\nLa cantidad de nodos hojas divisores de la raíz es: %d", cont1);
+    printf("\nLa sumatoria de aquellos nodos pares con un hijo es %d", sumatoria);
+	return 0;
+}
+  

@@ -1,0 +1,33 @@
+#include <stdio.h>
+
+
+int division(int dividendo, int divisor) {
+
+	if (dividendo == 0) {
+
+		return 0;
+	}
+
+	return division(dividendo - divisor, divisor)+1;
+	
+}
+
+int main() {
+   int a, b;
+
+	printf("Dividendo: ");
+	scanf("%d", &a);
+
+	printf("Divisor: ");
+	scanf("%d", &b);
+
+	while (b == 0) {
+		printf("Divisor: ");
+		scanf("%d", &b);
+	}
+		
+
+printf("La división da %d", division(a, b));
+	return 0;
+}
+  

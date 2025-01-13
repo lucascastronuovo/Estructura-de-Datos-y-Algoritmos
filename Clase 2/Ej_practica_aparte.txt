@@ -1,0 +1,71 @@
+#include <stdio.h>
+
+int main() {
+ int aux, ht[10], wt[10], dim, i, valor_ht, valor_wt, j, k, q;
+
+printf("\n Cantidad:");
+	scanf("%d", &dim);
+
+
+	for (i = 0; i < dim; i++) { 
+	printf("\n Altura:");
+	scanf("%d", &valor_ht);
+
+	while (valor_ht < 0) {
+		printf("\n Altura:");
+		scanf("%d", &valor_ht);
+	}
+		
+	ht[i] = valor_ht;
+
+	
+		
+	printf("Peso: ");
+	scanf("%d", &valor_wt);
+
+		while (valor_wt < 0) {
+		printf("\n Altura:");
+		scanf("%d", &valor_wt);
+	}
+		
+	wt[i] = valor_wt;
+
+}	
+
+
+	for (j = 0; j < dim; j++) {
+
+		for (k= j+1; k < dim; k++){
+
+			if (wt[j] > wt[k] && ht[j] > ht[k]) {
+
+				aux = wt[j];
+				wt[j] = wt[k];
+				wt[k] = aux;
+
+
+				aux = ht[j];
+				ht[j] = ht[k];
+				ht[k] = aux;
+	
+   
+          }
+
+	   }
+	}
+
+
+	for (q = 0; q < dim; q++) {
+
+		
+		printf("\n Altura %d", ht[q]);
+
+	
+		printf("\n Peso %d", wt[q]);
+
+        }
+
+
+	return 0;
+	
+	}

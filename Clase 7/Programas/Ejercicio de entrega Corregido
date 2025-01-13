@@ -1,0 +1,74 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+typedef struct alumnos{
+        int legajo;
+        char nombre[30];
+        int cant;
+        struct alumnos *sig;
+}nodoa;
+
+
+void crearlista(nodoa *h){
+	printf("ingrese legajo");
+	scanf("%d",&h->legajo);
+	if (h->legajo==0)
+		h->sig=NULL;
+	else{
+		printf("ingrese nombre y apellido");
+		scanf("%s",h->nombre);
+		printf("ingrese cant de materias aprobadas");
+		scanf("%d",&h->cant);
+	    h->sig=(nodoa *)malloc(sizeof(nodoa));
+		crearlista(h->sig);
+		}
+	}
+	
+void mostrarlista(nodoa *h){
+	if (h->sig!=NULL){
+		printf("%d \n",h->legajo);
+		printf("%s \n",h->nombre);
+		printf("%d  \n",h->cant);
+		mostrarlista(h->sig);
+		
+	}
+	
+}
+
+int recorrer(nodoa *h){
+	int cont=0;
+	while(h->sig!=NULL){
+		if (h->cant >10)
+			cont++;
+		h=h->sig;
+	}
+	return cont;
+}
+void generar(nodoa *h, nodoa *t){
+	while(h->sig!=NULL){
+		if(h->cant < 3){
+			t->legajo=h->legajo;
+			strcpy(t->nombre,h->nombre);
+			t->cant=h->cant;
+			t->sig=(nodoa *)malloc(sizeof(nodoa));
+	        t=t->sig; 
+	        }
+		h=h->sig;
+
+	}
+	t->sig=NULL;
+	}
+
+
+int main() {
+    nodoa *p=NULL;
+	nodoa *q=NULL;
+	p=(nodoa *)malloc(sizeof(nodoa));
+	q=(nodoa *)malloc(sizeof(nodoa));
+	crearlista(p);
+	mostrarlista(p);
+	printf("la cantidad de mas de 10 aprob %d",recorrer(p));
+	generar(p,q);
+	printf("la nueva lista es");
+	mostrarlista(q);

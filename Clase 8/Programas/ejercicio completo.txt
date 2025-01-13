@@ -1,0 +1,126 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+typedef struct numeros{
+        int num;
+        struct numeros *sig;
+}nodoa;
+
+
+void crearlista(nodoa *h){
+	printf("ingrese numero");
+	scanf("%d",&h->num);
+	if (h->num==-1)
+		h->sig=NULL;
+	else{
+		
+	    h->sig=(nodoa *)malloc(sizeof(nodoa));
+		crearlista(h->sig);
+		}
+	}
+	
+void mostrarlista(nodoa *h){
+	if (h->sig!=NULL){
+		printf("%d \n",h->num);
+		mostrarlista(h->sig);
+		
+	}
+	
+}
+
+void generar(nodoa *h, nodoa *t){
+	while(h->sig!=NULL){
+		if(h->num%2==0){
+			t->num=h->num;
+			t->sig=(nodoa *)malloc(sizeof(nodoa));
+			t=t->sig;
+		}
+		h=h->sig;
+	}
+	t->sig=NULL;
+}
+
+/*
+
+nodoa *insertarporcabeza(nodoa *h){
+	nodoa *aux=NULL;
+	if(h->cant==0){
+		aux=(nodoa *)malloc(sizeof(nodoa));
+		aux->legajo=h->legajo;
+		strcpy(aux->nombre,h->nombre);
+		aux->cant=1;
+		aux->sig=h;
+		h=aux;
+	
+	}
+	return h;
+}*/
+void insertar(nodoa *h){
+	nodoa *aux=NULL;
+	while(h->sig!=NULL){
+		if(h->sig->num %2 !=0){
+			aux=(nodoa *)malloc(sizeof(nodoa));
+		    aux->num=(h->num)*2;
+		    aux->sig=h->sig;
+			h->sig=aux;
+			h=h->sig;
+						
+		}
+		h=h->sig;
+	}
+
+}
+
+nodoa *eliminarporcabeza(nodoa *h){
+	nodoa *aux=NULL;
+	while(h->num %3==0){
+		aux=h->sig;
+		free(h);
+		h=aux;		
+		
+	}
+	return h;
+}
+
+void eliminar(nodoa *h){
+	nodoa *aux=NULL;
+	while(h->sig!=NULL){
+        if(h->sig->num %3 ==0){
+			aux=h->sig->sig;
+			free(h->sig);
+			h->sig=aux;
+			
+		}
+        else{
+			h=h->sig;
+		}
+			
+
+		
+	}
+}
+
+
+
+
+int main() {
+    nodoa *p=NULL;
+	nodoa *q=NULL;
+	p=(nodoa *)malloc(sizeof(nodoa));
+	q=(nodoa *)malloc(sizeof(nodoa));
+	crearlista(p);
+	mostrarlista(p);
+	generar(p,q);
+	printf("la lista con numeros pares es \n");
+	mostrarlista(q);
+	p=eliminarporcabeza(p);
+	eliminar(p);
+	printf("la lista con eliminaciones es \n");
+	mostrarlista(p);
+	insertar(p);
+	printf("la lista con inserciones es \n");
+	mostrarlista(p);
+	}
+	
+  

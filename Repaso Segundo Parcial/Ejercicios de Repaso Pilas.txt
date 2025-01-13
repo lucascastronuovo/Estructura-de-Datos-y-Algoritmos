@@ -1,0 +1,132 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+
+
+#define CANT 4
+
+
+
+typedef struct pila
+{
+	int a;
+
+    struct pila *sig;
+}nodop;
+
+/*
+Para los siguientes ejercicios crear una pila con la siguiente información:
+ A: entero.
+ SIG: puntero al próximo elemento de la pila.
+y calcular:
+1) La cantidad de números múltiplos de 3.
+2) El promedio de aquellos números divisores de 4.
+3) La sumatoria de aquellos números múltiplos del primer elemento ingresado a la pila.
+4) El número máximo y su posición en la pila.
+5) El número mínimo y su posición en la pila.
+6) Ingresar un numero por teclado y calcular la cantidad de veces que está en la pila.
+Si no está, mostrar una leyenda.
+
+
+*/
+
+
+
+
+void mostrar (nodop aux, int *cont_m3, int prim, int *sum, int *cont_mp, int *max, int *min, int *posmax, int *posmin)
+
+{
+      if (aux.a % 3 == 0)
+        *cont_m3=*cont_m3+1;
+      if (aux.a %prim==0 && *cont_mp!=CANT-1)
+        *sum=*sum+aux.a;
+      if (*cont_mp==0){
+        *min=aux.a;
+        *posmin=*cont_mp;
+        *max=aux.a;
+        *posmin=*cont_mp;
+          
+      }
+    else{
+      if(*max<aux.a){
+       *max=aux.a;
+       *posmax=*cont_mp;
+      }
+      if(*min>aux.a)
+        *min=aux.a;
+        *posmin=*cont_mp;
+    }
+        
+      *cont_mp=*cont_mp+1;
+
+     	printf("%d \n", aux.a);
+}
+
+nodop* crear_nodo(int dato )
+{
+   nodop* u;
+   u = (nodop *)malloc(sizeof(nodop));
+   u->a = dato;
+
+   u->sig = NULL;
+
+   return u;
+}
+
+void apilar(nodop** p, nodop* u)
+{
+    printf("apilar_nodo\n");
+
+
+  	u->sig = *p;
+  	printf("%02d p=%p u=%p\n", u->a, *p, u);
+	*p = u;
+}
+
+nodop desapilar(nodop** p)
+{
+	nodop* aux;
+    nodop datos;
+
+	datos=**p;
+
+	aux=*p;
+
+	*p=(*p)->sig;
+	free(aux);
+
+    return datos;
+}
+
+int main()
+{
+
+
+   int i,num, cont_m3 = 0, prim, sum=0, cont_mp=0, max, min, posmax, posmin;
+   nodop* p=NULL;
+
+
+   for(i=0; i<CANT; i++)
+   {
+    
+   	printf("Ingrese un numero: ");
+   	scanf("%d",&num);
+    if (i==0)
+    prim=num;
+   	apilar(&p, crear_nodo(num));
+   }
+
+
+   printf("\nVamos a desapilar todo\n");
+	while(p!=NULL)
+   {
+    	mostrar(desapilar(&p), &cont_m3, prim, &sum, &cont_mp, &max, &min, &posmax, &posmin);
+   }
+
+    printf("1) La cantidad de múltiplos de 3 es: %d", cont_m3);
+    printf("\n3) La sumatoria de aquellos números múltiplos del primer elemento ingresado a la pila es: %d", sum); 
+    printf("\n4) El número máximo y su posición en la pila es: %d posición %d", max, posmax);
+    printf("\n5) El número mínimo y su posición en la pila es: %d posición %d", min, posmin);
+   return 0;
+}
+  

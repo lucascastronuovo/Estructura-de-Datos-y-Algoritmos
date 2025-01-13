@@ -1,0 +1,136 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+
+
+#define CANT 4
+
+
+
+typedef struct tiponodo
+{
+	int num;
+
+    struct tiponodo *siguiente;
+}nodo;
+
+
+
+/*
+
+Crear una pila con la siguiente información:
+
+num: numero entero.
+siguiente: puntero al próximo elemento de la pila.
+
+
+Escribir la función necesaria para calcular:
+a) Los dos elementos más grandes de la pila y su posición.
+b) La cantidad de elementos menores al segundo elemento ingresado a la pila. Si no lo hay, mostrar una leyenda.
+
+
+*/
+
+
+
+void mostrar (nodo aux, int *max_1, int *max_2, int *pos_max_1, int *pos_max_2, int *pos, int segundo, int *cont)
+
+{   
+      
+
+      if (aux.num > *max_1){
+        *max_1= aux.num;
+        *pos_max_1= *pos;
+      }
+      else{
+        if (aux.num > *max_2){
+        *max_2=aux.num;
+        *pos_max_2= *pos;
+    }
+}
+     	printf("%d \n", aux.num);
+
+      *pos=*pos-1;
+
+      if (aux.num < segundo)
+        *cont=*cont+1;
+}
+
+nodo* crear_nodo(int dato )
+{
+   nodo* u;
+   u = (nodo *)malloc(sizeof(nodo));
+   u->num = dato;
+
+   u->siguiente = NULL;
+
+   return u;
+}
+
+void apilar(nodo** p, nodo* u)
+{
+    printf("apilar_nodo\n");
+
+
+  	u->siguiente = *p;
+  	printf("%02d p=%p u=%p\n", u->num, *p, u);
+	*p = u;
+}
+
+nodo desapilar(nodo** p)
+{
+	nodo* aux;
+    nodo datos;
+
+	datos=**p;
+
+	aux=*p;
+
+	*p=(*p)->siguiente;
+	free(aux);
+
+    return datos;
+}
+
+int main()
+{
+
+
+   int i,num, max_1, max_2, pos_max_1, pos_max_2, pos, segundo, cont=0;
+   nodo* p=NULL;
+
+
+   for(i=0; i<CANT; i++)
+   {
+   	printf("Ingrese un numero: ");
+   	scanf("%d",&num);
+
+    if (i==0){
+      max_1=num;
+      max_2=num;
+    }
+
+    if (i==1)
+    segundo=num;
+    
+   	apilar(&p, crear_nodo(num));
+   }
+
+    pos=CANT;
+
+   printf("\nVamos a desapilar todo\n");
+	while(p!=NULL)
+   {
+    	mostrar(desapilar(&p), &max_1, &max_2, &pos_max_1, &pos_max_2, &pos, segundo, &cont);
+   }
+
+    printf("a) Los máximos elementos son: 1) %d posición %d, 2) %d posición %d", max_1, pos_max_1, max_2, pos_max_2);
+
+    if (cont==0)
+      printf("\nb) No hay menores al segundo");
+    else
+      printf("\nb) La cantidad menores al segundo es %d", cont);
+
+
+   return 0;
+}

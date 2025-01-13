@@ -1,0 +1,155 @@
+#include <stdio.h>
+/*
+Desarrollar un programa en C (con funciones)
+que permita cargar una matriz de nxn elementos.
+
+Se pide:
+
+Mostrarla.
+
+Determinar si es una matriz antisimétrica.
+Si lo es calcular el promedio de los elementos
+de la diagonal secundaria, sino calcular el promedio
+de los elementos de la diagonal principal.
+
+
+
+Una matriz antisimétrica es aquella matriz
+cuadrada que coincide con la opuesta de su traspuesta.
+
+
+*/
+
+void cargar (int mat[][20], int dim) {
+
+	int i, j;
+
+	for (i = 0; i < dim; i++) {
+
+		for (j = 0; j < dim; j++){
+
+			printf("Ingresar valor %d - %d: ", i, j);
+			scanf("%d", &mat[i][j]);
+		}
+		
+	}
+
+}	
+
+void mostrar (int mat[][20], int dim) {
+
+	int i, j;
+
+	for (i = 0; i < dim; i++) {
+
+		for (j = 0; j < dim; j++) {
+
+
+			printf("\t %d ", mat[i][j]);
+			
+			
+		}
+
+		printf("\n");
+
+		
+	}
+
+	
+}
+
+
+
+int promedio (int suma, int div) {
+
+  int prom;
+	
+
+
+	if (div > 0)
+		prom = suma / div;
+
+	
+	return prom;
+}
+
+
+
+int main() {
+	int mat [20] [20], dim, i, j, cont = 0, div = 0, suma = 0, resultado_promedio;
+	
+    printf("Ingrese tamaño de matriz: ");
+	scanf("%d", &dim);
+
+	cargar(mat, dim);
+	printf("\n");
+	mostrar(mat, dim);
+
+	
+
+	for (i = 0; i < dim; i++) {
+
+		for (j = 0; j < dim; j++) {
+
+
+			if (mat[i][j] == -1 * mat[j][i]) {
+
+				cont++;
+				
+			}
+						
+			
+		}
+
+	}
+	
+
+	if (cont == dim * dim){
+
+      i = 0;
+      
+      j = dim - 1;
+
+      while ((i < dim) && (j >= 0)) {
+        
+
+            suma = mat[i][j] + suma;
+
+            div++;
+        
+            i++;
+		  	j--;
+      }
+
+    resultado_promedio = promedio(suma, div);
+        
+    }
+		
+	else {
+
+	  i = 0;
+      
+      j = 0;
+
+      while ((i < dim) && (j < dim)) {
+        
+
+            suma = mat[i][j] + suma;
+
+            div++;
+        
+            i++;
+		  	j++;
+      }
+
+    resultado_promedio = promedio(suma, div);
+        
+    }
+
+		
+
+		printf("\n El promedio es %d", resultado_promedio);
+
+
+		return 0;
+}
